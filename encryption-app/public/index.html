@@ -1,13 +1,12 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>File Encryption App</title>
-  <script defer src="app.js"></script>
+  <title>App de Cifrado</title>
 </head>
 <body>
-  <h1>File Encryption App</h1>
+  <h1>App de Cifrado</h1>
 
   <h2>AES Encryption/Decryption</h2>
   <div>
@@ -23,20 +22,22 @@
     <p id="aes-file-decrypted"></p>
   </div>
 
-  <h2>RSA Encryption/Decryption</h2>
-  <div>
-    <label for="rsa-public-key">Public Key (RSA):</label>
-    <textarea id="rsa-public-key"></textarea>
-  </div>
-  <div>
-    <label for="rsa-file">Select File to Encrypt (RSA):</label>
-    <input type="file" id="rsa-file" />
-    <button onclick="encryptFileRSA()">Encrypt</button>
-    <p id="rsa-file-encrypted"></p>
-    <label for="rsa-private-key">Private Key (RSA):</label>
-    <textarea id="rsa-private-key"></textarea>
-    <button onclick="decryptFileRSA()">Decrypt</button>
-    <p id="rsa-file-decrypted"></p>
-  </div>
+  <!-- Cifrado Asimétrico -->
+  <h2>Cifrado Asimétrico (RSA)</h2>
+  <form id="rsaForm">
+    <label for="message">Mensaje:</label>
+    <input type="text" id="message" name="message" required>
+    <button type="submit">Generar Claves y Cifrar</button>
+  </form>
+
+  <h3>Resultados:</h3>
+  <p><strong>Clave Pública:</strong></p>
+  <pre id="publicKey"></pre>
+  <p><strong>Clave Privada:</strong></p>
+  <pre id="privateKey"></pre>
+  <p><strong>Mensaje Cifrado:</strong></p>
+  <pre id="encryptedMessage"></pre>
+
+  <script src="app.js"></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 const backendUrl = 'http://localhost:3000';
 
+
 async function encryptFileAES() {
   const key = document.getElementById('aes-key').value;
   const fileInput = document.getElementById('aes-file');
@@ -36,38 +37,27 @@ async function decryptFileAES() {
   document.getElementById('aes-file-decrypted').textContent = `Decrypted file path: ${data.filePath}`;
 }
 
-async function encryptFileRSA() {
-  const publicKey = document.getElementById('rsa-public-key').value;
-  const fileInput = document.getElementById('rsa-file');
-  const file = fileInput.files[0];
+// Cifrado RSA
+document.getElementById('rsaForm').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  
+  const message = document.getElementById('message').value;
 
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('publicKey', publicKey);
+  try {
+    const response = await fetch('/encrypt-rsa', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message })
+    });
 
-  const response = await fetch(`${backendUrl}/encrypt-file/rsa`, {
-    method: 'POST',
-    body: formData,
-  });
+    const data = await response.json();
 
-  const data = await response.json();
-  document.getElementById('rsa-file-encrypted').textContent = `Encrypted file path: ${data.filePath}`;
-}
+    // Mostrar las claves y mensaje cifrado en el frontend
+    document.getElementById('publicKey').innerText = data.publicKey;
+    document.getElementById('privateKey').innerText = data.privateKey;
+    document.getElementById('encryptedMessage').innerText = data.encryptedMessage;
 
-async function decryptFileRSA() {
-  const privateKey = document.getElementById('rsa-private-key').value;
-  const fileInput = document.getElementById('rsa-file');
-  const file = fileInput.files[0];
-
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('privateKey', privateKey);
-
-  const response = await fetch(`${backendUrl}/decrypt-file/rsa`, {
-    method: 'POST',
-    body: formData,
-  });
-
-  const data = await response.json();
-  document.getElementById('rsa-file-decrypted').textContent = `Decrypted file path: ${data.filePath}`;
-}
+  } catch (error) {
+    console.error('Error al cifrar:', error);
+  }
+});
